@@ -265,7 +265,8 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * size {@code n}, the mean is {@code n * m / N}.
      */
     public double getNumericalMean() {
-        return (double) (getSampleSize() * getNumberOfSuccesses()) / (double) getPopulationSize();
+        //return (double) (getSampleSize() * getNumberOfSuccesses()) / (double) getPopulationSize();
+    	return (double) (getSampleSize() * getSupportUpperBound()) / (double) getPopulationSize();
     }
 
     /**
@@ -290,7 +291,8 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      */
     protected double calculateNumericalVariance() {
         final double N = getPopulationSize();
-        final double m = getNumberOfSuccesses();
+        //final double m = getNumberOfSuccesses();
+        final double m = getSupportUpperBound();
         final double n = getSampleSize();
         return (n * m * (N - n) * (N - m)) / (N * N * (N - 1));
     }
@@ -307,6 +309,8 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
     public int getSupportLowerBound() {
         return FastMath.max(0,
                             getSampleSize() + getNumberOfSuccesses() - getPopulationSize());
+    	//return FastMath.max(0,
+        //        getSampleSize() + getSupportUpperBound() - getPopulationSize());
     }
 
     /**
@@ -319,6 +323,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      */
     public int getSupportUpperBound() {
         return FastMath.min(getNumberOfSuccesses(), getSampleSize());
+        
     }
 
     /**
